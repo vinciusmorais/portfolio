@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap");
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "Geist", system-ui, sans-serif;
+  --font-display: "Geist", system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-border: var(--c-border);
+  --color-text: var(--c-text);
+  --color-text-muted: var(--c-text-muted);
+  --color-accent: var(--c-accent);
+}
+
+/* ---- Tema escuro (padrão) ---- */
+:root,
+[data-theme="dark"] {
+  --c-bg: #121316;
+  --c-surface: #1b1d21;
+  --c-border: #2a2d34;
+  --c-text: #f2f3f5;
+  --c-text-muted: #9aa0ab;
+  --c-accent: #4f9dff;
+
+  --hero-img: url("/hero-dark.png");
+  --about-img: url("/about-dark.png");
+  --hero-scrim: linear-gradient(
+    to top,
+    rgba(18, 19, 22, 0.92) 0%,
+    rgba(18, 19, 22, 0.25) 42%,
+    rgba(18, 19, 22, 0) 68%
+  );
+}
+
+/* ---- Tema claro ---- */
+[data-theme="light"] {
+  --c-bg: #f6f6f4;
+  --c-surface: #ffffff;
+  --c-border: #e3e4e2;
+  --c-text: #17181b;
+  --c-text-muted: #596070;
+  --c-accent: #2563eb;
+
+  --hero-img: url("/hero-light.png");
+  --about-img: url("/about-light.png");
+  --hero-scrim: linear-gradient(
+    to top,
+    rgba(246, 246, 244, 0.94) 0%,
+    rgba(246, 246, 244, 0.3) 42%,
+    rgba(246, 246, 244, 0) 68%
+  );
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Desliga transições durante a troca de tema (evita cores "presas" com var()) */
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+
+/* Transição de tema: revelação circular (View Transitions API) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+body {
+  background-color: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-sans);
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* ---- Hero com background que troca por tema ---- */
+.hero-bg {
+  background-image: var(--hero-img);
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+}
+
+.about-bg {
+  background-image: var(--about-img);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-scrim {
+  background: var(--hero-scrim);
+}
+
+/* Textura de ruído (usada pelo PrismaBackground) */
+.noise-overlay {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 120px 120px;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out both;
+}
