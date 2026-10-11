@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Playwright / screenshots temporários
+.playwright-mcp/
+topo-atual.png
